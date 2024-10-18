@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Bot</title>
+    <style>
+        body {
+            background-image: url("Catching Up with Clinical Accelerator.jpg");
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+            color: black;
+        }
+        #userInput {
+            width: 60%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Welcome to Eliza the Travel Bot!</h1>
+    <div>
+        <input type="text" id="userInput" placeholder="Ask me something...">
+        <button onclick="getResponse()">Send</button>
+    </div>
+    <div id="response"></div>
+
+    <script>
+        async function getResponse() {
+            const userInput = document.getElementById("userInput").value;
+            const responseDiv = document.getElementById("response");
+
+            const response = await fetch("/get_response", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ user_input: userInput })
+            });
+
+            const data = await response.json();
+            responseDiv.innerHTML = "<p>" + data.response + "</p>";
+        }
+    </script>
+</body>
+</html>
